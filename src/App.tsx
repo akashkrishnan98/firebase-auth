@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import SignUpForm from "./components/SignUpForm";
+import { AuthProvider } from "./contexts/AuthContext";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Dashboard, LoginForm } from "./components";
+import PATHS from "./configs/routes_config";
+import ProtectedRoute from "./components/ProtectedRoute";
+import SnackbarProvider from "./contexts/SnackBarContext";
+import ForgotPassword from "./components/ForgotPassword";
+import UpdateProfile from "./components/UpdateProfile";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <SnackbarProvider>
+      <AuthProvider>
+        <div className="App">
+          <Router>
+            <Switch>
+              <ProtectedRoute
+                path={PATHS.DASHBOARD}
+                component={Dashboard}
+                exact
+              />
+              <Route path={PATHS.LOGIN} component={LoginForm} exact />
+              <Route path={PATHS.SIGN_UP} component={SignUpForm} exact />
+              <Route
+                path={PATHS.FORGOT_PASSWORD}
+                component={ForgotPassword}
+                exact
+              />
+              <ProtectedRoute
+                path={PATHS.UPDATE_PROFILE}
+                component={UpdateProfile}
+                exact
+              />
+            </Switch>
+          </Router>
+        </div>
+      </AuthProvider>
+    </SnackbarProvider>
   );
-}
+};
 
 export default App;
