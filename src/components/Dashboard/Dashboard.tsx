@@ -1,86 +1,35 @@
-import React, { useState } from "react";
-import {
-  Button,
-  Typography,
-  Box,
-  Grid,
-  CircularProgress,
-} from "@material-ui/core";
-import { useHistory } from "react-router-dom";
-import useStyles from "../../styles/Form.Styles";
-import { FORM_LABELS } from "../../configs/label_config";
-import { useAuth } from "../../contexts/AuthContext";
-import { useSnackBar } from "../../contexts/SnackBarContext";
-import PATHS from "../../configs/routes_config";
+import React from "react";
+import { Box } from "@material-ui/core";
+import Navbar from "../Navbar";
+import { AddFolderButton } from "./AddFolderButton";
+import useFolder from "../../hooks/useFolder";
+import Folder from "./Folder";
+import { useLocation, useParams } from "react-router";
+import PathBreadcrumb from "./PathBreadcrumb";
+import useStyles from "./Dashboard.Styles";
+import { IFolder } from "../../interface/app-interface";
+import AddFileButton from "./AddFileButton";
 
 const Dashboard: React.FC = () => {
-  const { currentUser, logout } = useAuth();
-  const { setSnackbarMessage } = useSnackBar();
-  const history = useHistory();
   const classes = useStyles();
-  const [loading, setLoading] = useState(false);
-
-  const handleRedirect = () => {
-    history.push(PATHS.UPDATE_PROFILE);
-  };
-
-  const handleLogout = async () => {
-    setLoading(true);
-    try {
-      await logout();
-      setSnackbarMessage({ message: FORM_LABELS.SUCCESS_LOGOUT });
-      history.push(PATHS.LOGIN);
-    } catch {
-      setSnackbarMessage({ message: FORM_LABELS.ERROR_LOGOUT, type: "error" });
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { folderId } = useParams<{ folderId: string }>();
+  const { state = { folder: undefined } } = useLocation<{ folder: IFolder }>();
+  const { folder, childFolders } = useFolder(folderId, state.folder);
 
   return (
     <>
-      <Box className={classes.root}>
-        <Box className={classes.formContainer}>
-          <Box>
-            <Typography variant="h4" align="center">
-              {FORM_LABELS.USER_PROFILE}
-            </Typography>
-          </Box>
-          <Grid container>
-            <Grid item xs={12}>
-              <Box className={classes.userInfo}>
-                <Typography>
-                  {FORM_LABELS.EMAIL}
-                  {": "} {currentUser?.email}
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
-              <Box>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={`${classes.inputFields} ${classes.submitButton}`}
-                  onClick={() => handleRedirect()}
-                >
-                  {FORM_LABELS.UPDATE_PROFILE}
-                </Button>
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
-              <Box textAlign="center" pt={1}>
-                <Button
-                  className={classes.submitButton}
-                  onClick={() => handleLogout()}
-                  color="primary"
-                >
-                  {loading && <CircularProgress color="inherit" size={16} />}
-                  {FORM_LABELS.LOGOUT}
-                </Button>
-              </Box>
-            </Grid>
-          </Grid>
+      <Navbar />
+      <Box px={3} py={2}>
+        <Box component="span" pb={1.2} mb={2.5} className={classes.path}>
+          <PathBreadcrumb folder={folder} />
+          <AddFileButton folder={folder} />
+          <AddFolderButton folder={folder} />
         </Box>
+        {childFolders?.map((childFolder) => (
+          <Box component="span" m={1} key={`${folder?.id}-${childFolder.id}`}>
+            <Folder folder={childFolder} />
+          </Box>
+        ))}
       </Box>
     </>
   );

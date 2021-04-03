@@ -31,4 +31,19 @@ const FORM_LABELS = {
   ERROR_PASSWORD_RESET: "Something went wrong while resetting password",
 };
 
-export { FORM_LABELS };
+const DASHBOARD_LABELS = {
+  CANISTER: "Canister",
+  PROFILE: "Profile",
+  LOGOUT: "Logout",
+  ADD_FOLDER: "Add folder",
+  FOLDER_NAME: "Folder Name",
+  CLOSE_MODAL: "Close",
+
+  SUCCESS_ADD_FOLDER: "New folder added successfullly!!",
+  SUCCESS_UPLOAD_FILE: "File uploaded successfully!!",
+
+  ERROR_ADD_FOLDER: "An error occured while creating folder",
+  ERROR_UPLOAD_FILE: "An error occured while uploading file",
+};
+
+export { FORM_LABELS, DASHBOARD_LABELS };

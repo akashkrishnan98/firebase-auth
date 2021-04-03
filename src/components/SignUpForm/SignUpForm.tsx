@@ -8,11 +8,12 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import useStyles from "../../styles/Form.Styles";
-import { FORM_LABELS } from "../../configs/label_config";
+import { FORM_LABELS } from "../../configs/label-config";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
-import PATHS from "../../configs/routes_config";
+import PATHS from "../../configs/routes-config";
 import { useSnackBar } from "../../contexts/SnackBarContext";
+import CenteredComponent from "../CenteredComponent";
 
 const SignUpForm: React.FC = () => {
   const history = useHistory();
@@ -57,77 +58,79 @@ const SignUpForm: React.FC = () => {
   const classes = useStyles();
 
   return (
-    <Box className={classes.root}>
-      <Box className={classes.formContainer}>
-        <Typography variant="h4" align="center">
-          {FORM_LABELS.SIGN_UP}
-        </Typography>
-        <form onSubmit={(event) => handleSignUp(event)}>
-          <Grid container spacing={3} alignItems="center" justify="center">
-            <Grid item xs={12}>
-              <Box>
-                <TextField
-                  id="email"
-                  label={FORM_LABELS.EMAIL}
-                  type="email"
-                  inputRef={emailRef}
-                  className={classes.inputFields}
-                  required
-                />
-              </Box>
+    <CenteredComponent>
+      <Box className={classes.root}>
+        <Box className={classes.formContainer}>
+          <Typography variant="h4" align="center">
+            {FORM_LABELS.SIGN_UP}
+          </Typography>
+          <form onSubmit={(event) => handleSignUp(event)}>
+            <Grid container spacing={3} alignItems="center" justify="center">
+              <Grid item xs={12}>
+                <Box>
+                  <TextField
+                    id="email"
+                    label={FORM_LABELS.EMAIL}
+                    type="email"
+                    inputRef={emailRef}
+                    className={classes.inputFields}
+                    required
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box>
+                  <TextField
+                    id="pasword"
+                    label={FORM_LABELS.PASSWORD}
+                    type="password"
+                    inputRef={passwordRef}
+                    className={classes.inputFields}
+                    required
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box>
+                  <TextField
+                    id="pasword-confirm"
+                    label={FORM_LABELS.PASSWORD_CONFIRM}
+                    type="password"
+                    inputRef={passwordConfirmRef}
+                    className={classes.inputFields}
+                    required
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box>
+                  <Button
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    className={`${classes.inputFields} ${classes.submitButton}`}
+                    disabled={loading}
+                  >
+                    {loading && <CircularProgress color="inherit" size={16} />}
+                    <Typography className={classes.submitButtonText}>
+                      {FORM_LABELS.SIGN_UP}
+                    </Typography>
+                  </Button>
+                </Box>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Box>
-                <TextField
-                  id="pasword"
-                  label={FORM_LABELS.PASSWORD}
-                  type="password"
-                  inputRef={passwordRef}
-                  className={classes.inputFields}
-                  required
-                />
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
-              <Box>
-                <TextField
-                  id="pasword-confirm"
-                  label={FORM_LABELS.PASSWORD_CONFIRM}
-                  type="password"
-                  inputRef={passwordConfirmRef}
-                  className={classes.inputFields}
-                  required
-                />
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
-              <Box>
-                <Button
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                  className={`${classes.inputFields} ${classes.submitButton}`}
-                  disabled={loading}
-                >
-                  {loading && <CircularProgress color="inherit" size={16} />}
-                  <Typography className={classes.submitButtonText}>
-                    {FORM_LABELS.SIGN_UP}
-                  </Typography>
-                </Button>
-              </Box>
-            </Grid>
-          </Grid>
-        </form>
+          </form>
+        </Box>
+        <Box mt={2}>
+          <Typography align="center">
+            {FORM_LABELS.EXISTING_ACCOUNT}{" "}
+            <Link to={PATHS.LOGIN} className={classes.links}>
+              {FORM_LABELS.LOGIN}
+            </Link>
+          </Typography>
+        </Box>
       </Box>
-      <Box mt={2}>
-        <Typography align="center">
-          {FORM_LABELS.EXISTING_ACCOUNT}{" "}
-          <Link to={PATHS.LOGIN} className={classes.links}>
-            {FORM_LABELS.LOGIN}
-          </Link>
-        </Typography>
-      </Box>
-    </Box>
+    </CenteredComponent>
   );
 };
 

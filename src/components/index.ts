@@ -1,5 +1,5 @@
 import SignUpForm from "./SignUpForm";
 import LoginForm from "./LoginForm";
-import Dashboard from "./Dashboard";
+import UserProfile from "./UserProfile";
 
-export { SignUpForm, LoginForm, Dashboard };
+export { SignUpForm, LoginForm, UserProfile };

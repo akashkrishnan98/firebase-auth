@@ -9,10 +9,11 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import useStyles from "../../styles/Form.Styles";
-import { FORM_LABELS } from "../../configs/label_config";
+import { FORM_LABELS } from "../../configs/label-config";
 import { useAuth } from "../../contexts/AuthContext";
-import PATHS from "../../configs/routes_config";
+import PATHS from "../../configs/routes-config";
 import { useSnackBar } from "../../contexts/SnackBarContext";
+import CenteredComponent from "../CenteredComponent";
 
 const Loginform: React.FC = () => {
   const history = useHistory();
@@ -49,75 +50,77 @@ const Loginform: React.FC = () => {
   const classes = useStyles();
 
   return (
-    <Box className={classes.root}>
-      <Box className={classes.formContainer}>
-        <Typography variant="h4" align="center">
-          {FORM_LABELS.LOGIN}
-        </Typography>
-        <form onSubmit={(event) => handleLogin(event)}>
-          <Grid container spacing={3} alignItems="center" justify="center">
-            <Grid item xs={12}>
-              <Box>
-                <TextField
-                  id="email"
-                  label={FORM_LABELS.EMAIL}
-                  type="email"
-                  inputRef={emailRef}
-                  className={classes.inputFields}
-                  required
-                />
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
-              <Box>
-                <TextField
-                  id="pasword"
-                  label={FORM_LABELS.PASSWORD}
-                  type="password"
-                  inputRef={passwordRef}
-                  className={classes.inputFields}
-                  required
-                />
-              </Box>
-            </Grid>
+    <CenteredComponent>
+      <Box className={classes.root}>
+        <Box className={classes.formContainer}>
+          <Typography variant="h4" align="center">
+            {FORM_LABELS.LOGIN}
+          </Typography>
+          <form onSubmit={(event) => handleLogin(event)}>
+            <Grid container spacing={3} alignItems="center" justify="center">
+              <Grid item xs={12}>
+                <Box>
+                  <TextField
+                    id="email"
+                    label={FORM_LABELS.EMAIL}
+                    type="email"
+                    inputRef={emailRef}
+                    className={classes.inputFields}
+                    required
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box>
+                  <TextField
+                    id="pasword"
+                    label={FORM_LABELS.PASSWORD}
+                    type="password"
+                    inputRef={passwordRef}
+                    className={classes.inputFields}
+                    required
+                  />
+                </Box>
+              </Grid>
 
-            <Grid item xs={12}>
-              <Box>
-                <Button
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                  className={`${classes.inputFields} ${classes.submitButton}`}
-                  disabled={loading}
-                >
-                  {loading && <CircularProgress color="inherit" size={16} />}
-                  <Typography className={classes.submitButtonText}>
-                    {FORM_LABELS.LOGIN}
-                  </Typography>
-                </Button>
-              </Box>
+              <Grid item xs={12}>
+                <Box>
+                  <Button
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    className={`${classes.inputFields} ${classes.submitButton}`}
+                    disabled={loading}
+                  >
+                    {loading && <CircularProgress color="inherit" size={16} />}
+                    <Typography className={classes.submitButtonText}>
+                      {FORM_LABELS.LOGIN}
+                    </Typography>
+                  </Button>
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box textAlign="center">
+                  <Button>
+                    <Link to={PATHS.FORGOT_PASSWORD} className={classes.links}>
+                      {FORM_LABELS.FORGOT_PASSWORD}
+                    </Link>
+                  </Button>
+                </Box>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Box textAlign="center">
-                <Button>
-                  <Link to={PATHS.FORGOT_PASSWORD} className={classes.links}>
-                    {FORM_LABELS.FORGOT_PASSWORD}
-                  </Link>
-                </Button>
-              </Box>
-            </Grid>
-          </Grid>
-        </form>
+          </form>
+        </Box>
+        <Box mt={2}>
+          <Typography align="center">
+            {FORM_LABELS.NEW_ACCOUNT}{" "}
+            <Link to={PATHS.SIGN_UP} className={classes.links}>
+              {FORM_LABELS.SIGN_UP}
+            </Link>
+          </Typography>
+        </Box>
       </Box>
-      <Box mt={2}>
-        <Typography align="center">
-          {FORM_LABELS.NEW_ACCOUNT}{" "}
-          <Link to={PATHS.SIGN_UP} className={classes.links}>
-            {FORM_LABELS.SIGN_UP}
-          </Link>
-        </Typography>
-      </Box>
-    </Box>
+    </CenteredComponent>
   );
 };
 

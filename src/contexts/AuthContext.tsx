@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { FIREBASE_AUTH } from "../utils/auth_utils";
+import { FIREBASE_AUTH } from "../utils/auth-utils";
 import firebase from "firebase";
 
 type FireBaseUser = firebase.User;
@@ -62,12 +62,10 @@ export const AuthProvider: React.FC = ({ children }) => {
   };
 
   const updatePassword = (password: string) => {
-    console.log(password);
     return currentUser?.updatePassword(password) || Promise.reject();
   };
 
   const updateEmail = (email: string) => {
-    console.log(email);
     return currentUser?.updateEmail(email) || Promise.reject();
   };
 

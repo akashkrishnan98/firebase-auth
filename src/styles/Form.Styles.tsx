@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 
   userInfo: {
-    padding: "30px 0",
+    padding: "20px 0",
   },
 }));
 
