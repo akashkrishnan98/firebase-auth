@@ -21,7 +21,7 @@ export const FIREBASE_DRIVE_DB = {
   files: firestore.collection("files"),
   formattedDoc: (
     doc: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>
-  ) => ({ id: doc.id, ...doc.data() } as IFolder),
+  ) => ({ id: doc.id, ...doc.data() }),
   getCurrentTimestamp: firebase.firestore.FieldValue.serverTimestamp,
 };
 

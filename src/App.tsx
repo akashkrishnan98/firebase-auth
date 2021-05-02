@@ -9,7 +9,6 @@ import SnackbarProvider from "./contexts/SnackBarContext";
 import ForgotPassword from "./components/ForgotPassword";
 import UpdateProfile from "./components/UpdateProfile";
 import Dashboard from "./components/Dashboard";
-import Navbar from "./components/Navbar";
 
 const App: React.FC = () => {
   return (

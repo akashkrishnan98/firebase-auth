@@ -1,7 +1,11 @@
 import { useEffect, useReducer } from "react";
 import { FOLDER_ACTIONS, ROOT_FOLDER } from "../configs/app-config";
 import { useAuth } from "../contexts/AuthContext";
-import { IFolder, IFolderReducerState } from "../interface/app-interface";
+import {
+  IFile,
+  IFolder,
+  IFolderReducerState,
+} from "../interface/app-interface";
 import { FIREBASE_DRIVE_DB } from "../utils/auth-utils";
 
 const reducer = (
@@ -14,13 +18,15 @@ const reducer = (
         folderId: action.payload.folderId,
         folder: action.payload.folder,
         childFolders: [],
-        childFiles: [],
+        files: [],
       };
 
     case FOLDER_ACTIONS.UPDATE_FOLDER:
       return { ...state, folder: action.payload.folder };
     case FOLDER_ACTIONS.SET_CHILD_FOLDERS:
       return { ...state, childFolders: action.payload.childFolders };
+    case FOLDER_ACTIONS.SET_FILES:
+      return { ...state, files: action.payload.files };
     default:
       return state;
   }
@@ -28,7 +34,7 @@ const reducer = (
 
 const initialState: IFolderReducerState = {
   childFolders: [],
-  childFiles: [],
+  files: [],
 };
 
 const useFolder = (
@@ -59,7 +65,7 @@ const useFolder = (
       .then((doc) => {
         dispatch({
           type: FOLDER_ACTIONS.UPDATE_FOLDER,
-          payload: { folder: FIREBASE_DRIVE_DB.formattedDoc(doc) },
+          payload: { folder: FIREBASE_DRIVE_DB.formattedDoc(doc) as IFolder },
         });
       })
       .catch(() => {
@@ -79,10 +85,31 @@ const useFolder = (
         dispatch({
           type: FOLDER_ACTIONS.SET_CHILD_FOLDERS,
           payload: {
-            childFolders: snapshot.docs.map(FIREBASE_DRIVE_DB.formattedDoc),
+            childFolders: snapshot.docs.map(
+              FIREBASE_DRIVE_DB.formattedDoc
+            ) as IFolder[],
           },
         });
       });
+  }, [currentUser?.uid, folderId]);
+
+  useEffect(() => {
+    return (
+      FIREBASE_DRIVE_DB.files
+        .where("folderId", "==", folderId || null)
+        .where("userId", "==", currentUser?.uid)
+        // .orderBy("createdAt")
+        .onSnapshot((snapshot) => {
+          dispatch({
+            type: FOLDER_ACTIONS.SET_FILES,
+            payload: {
+              files: snapshot.docs.map(
+                FIREBASE_DRIVE_DB.formattedDoc
+              ) as IFile[],
+            },
+          });
+        })
+    );
   }, [currentUser?.uid, folderId]);
 
   return state;

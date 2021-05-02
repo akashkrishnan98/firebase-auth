@@ -6,17 +6,26 @@ export interface IFolderPath {
 }
 
 export interface IFolder {
-  name: string;
   id?: string;
+  name: string;
   parentId?: string | null;
   userId?: string;
   createdAt?: firebase.firestore.FieldValue;
   path?: IFolderPath[];
 }
 
+export interface IFile {
+  id?: string;
+  url: string;
+  name: string;
+  createdAt: firebase.firestore.FieldValue;
+  folderId: string | null;
+  userId: string;
+}
+
 export interface IFolderReducerState {
   folderId?: string;
   folder?: IFolder;
   childFolders?: IFolder[];
-  childFiles?: [];
+  files?: IFile[];
 }

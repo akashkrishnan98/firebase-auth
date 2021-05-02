@@ -32,6 +32,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   folderButton: {
     textTransform: "initial",
   },
+
+  fileButton: {
+    textTransform: "initial",
+
+    a: {
+      textDecoration: "none",
+    },
+  },
 }));
 
 export default useStyles;
